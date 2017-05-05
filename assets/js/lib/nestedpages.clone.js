@@ -49,6 +49,8 @@ NestedPages.Clone = function()
 	plugin.clone = function()
 	{
 		plugin.toggleLoading(true);
+		var include_children = ( $(NestedPages.selectors.cloneChildren).is(':checked') ) ? true : false;
+		console.log(include_children);
 		$.ajax({
 			url : NestedPages.jsData.ajaxurl,
 			type : 'post',
@@ -59,7 +61,8 @@ NestedPages.Clone = function()
 				status : $(NestedPages.selectors.cloneStatus).val(),
 				author : $(NestedPages.selectors.cloneAuthor).find('select').val(),
 				nonce : NestedPages.jsData.nonce,
-				posttype : NestedPages.jsData.posttype
+				posttype : NestedPages.jsData.posttype,
+				include_children : include_children
 			},
 			success : function(data){
 				plugin.toggleLoading(false);

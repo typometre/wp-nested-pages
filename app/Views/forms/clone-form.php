@@ -54,6 +54,11 @@
 					echo $authors_dropdown;
 				endif;
 			?>
+
+			<div class="form-control">
+				<p><label><input type="checkbox" value="true" data-clone-children /><?php _e('Include Page Children', 'wp-nested-pages'); ?></label></p>
+			</div>
+
 			</div><!-- .modal-body -->
 	
 		</div><!-- /.modal-content -->

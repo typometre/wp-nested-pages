@@ -40,6 +40,7 @@ class ClonePost extends BaseHandler
 		$this->data['author'] = intval(sanitize_text_field($_POST['author']));
 		$this->data['quantity'] = intval(sanitize_text_field($_POST['quantity']));
 		$this->data['post_type'] = sanitize_text_field($_POST['posttype']);
+		$this->data['include_children'] = ( sanitize_text_field($_POST['include_children']) == true ) ? sanitize_text_field($_POST['include_children']) : false;
 	}
 
 	/**
@@ -47,7 +48,13 @@ class ClonePost extends BaseHandler
 	*/
 	private function clonePost()
 	{
-		$new_posts = $this->cloner->clonePost($this->data['post_id'], $this->data['quantity'], $this->data['status'], $this->data['author']);
+		$new_posts = $this->cloner->clonePost(
+			$this->data['post_id'], 
+			$this->data['quantity'], 
+			$this->data['status'], 
+			$this->data['author'],
+			$this->data['include_children']
+		);
 		return wp_send_json(array(
 			'status' => 'success', 
 			'posts' => $this->post_repo->postArray($new_posts, $this->data['post_type'])

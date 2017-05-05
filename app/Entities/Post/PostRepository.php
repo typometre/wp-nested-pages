@@ -5,6 +5,8 @@ namespace NestedPages\Entities\Post;
 class PostRepository 
 {
 
+	private $post_ids;
+
 	/**
 	* Get count of hidden posts
 	* @since 1.1.4
@@ -130,6 +132,49 @@ class PostRepository
 				wp_delete_post(get_the_id(), true);
 		endwhile; endif; wp_reset_postdata();
 		return true;
+	}
+
+	/**
+	* Get child IDs of a given post
+	* @since 1.6.9
+	* @return array
+	*/
+	public function getChildIds($post_id = 0)
+	{
+		$args = array(
+			'post_type' => 'page',
+			'posts_per_page' => -1,
+			'fields' => 'ids',
+			'orderby' => 'menu_order',
+			'order' => 'ASC'
+		);
+		if ( intval($post_id) != 0 ){
+			$args['post_type'] = get_post_type($post_id);
+			$args['post_parent'] = $post_id;
+		}
+		$child_q = new \WP_Query($args);
+		if ( $child_q->have_posts() ) : ;
+			return $child_q->posts;
+		else:
+			return null;
+		endif; wp_reset_postdata();
+	}
+
+	/**
+	* Get a nested array of post IDs of a given post 
+	* @param int $post_id
+	* @return array - nested array of parent/child post ids
+	*/
+	public function getNestedPostArray($parent_id = 0, $post_ids = array())
+	{
+		$child_ids = $this->getChildIds($parent_id);
+		if ( $child_ids ) :
+			$post_ids = array_merge($post_ids, $child_ids);
+			foreach ( $child_ids as $id ){
+				$post_ids = $this->getNestedPostArray($id, $post_ids);
+			}
+		endif;
+		return $post_ids;
 	}
 
 }

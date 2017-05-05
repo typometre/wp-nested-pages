@@ -100,6 +100,7 @@ NestedPages.selectors = {
 	cloneQuantity : '[data-clone-quantity]', // Quantity to Clone
 	cloneStatus : '[data-clone-status]', // Clone Status
 	cloneAuthor : '[data-clone-author]', // Clone Author
+	cloneChildren : '[data-clone-children]', // Whether to clone children
 
 	// Tabs
 	tabButtonParent : '[data-np-tabs]', // Tab Parent

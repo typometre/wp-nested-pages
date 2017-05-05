@@ -2,6 +2,8 @@
 
 namespace NestedPages\Entities\Post;
 
+use NestedPages\Entities\Post\PostRepository;
+
 class PostCloner
 {
 	/**
@@ -41,16 +43,28 @@ class PostCloner
 	private $new_posts;
 
 	/**
+	* Post Repository
+	* @var object
+	*/
+	private $post_repo;
+
+	public function __construct()
+	{
+		$this->post_repo = new PostRepository;
+	}
+
+	/**
 	* Clone the post
 	* @var int $id
 	*/
-	public function clonePost($id, $quantity = 1, $status = 'publish', $author = null)
+	public function clonePost($id, $quantity = 1, $status = 'publish', $author = null, $include_children = false)
 	{
 		$this->original_id = $id;
 		$this->original_post = get_post( $id );
-		$this->clone_options['quantity'] = $quantity;
+		$this->clone_options['quantity'] = intval($quantity);
 		$this->clone_options['status'] = $status;
 		$this->clone_options['author'] = $author;
+		$this->clone_options['include_children'] = $include_children;
 		$this->loopClone();	
 		return $this->new_posts;
 	}
@@ -112,5 +126,13 @@ class PostCloner
 		foreach($meta as $key => $value){
 			add_post_meta($this->new_id, $key, $value[0]);
 		}
+	}
+
+	/**
+	* Clone children
+	*/
+	private function cloneChildren()
+	{
+
 	}
 }
