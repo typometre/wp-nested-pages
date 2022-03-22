@@ -2,6 +2,8 @@
 
 Nested Pages provides an intuitive drag and drop interface for managing pages & posts in the WordPress admin, while maintaining quick edit functionality.
 
+This fork is only to enable Links creation in CPT's as it's available by default only for pages.
+
 For installation and usage information visit [nestedpages.com](http://nestedpages.com). Available for download/installation in the [WordPress Plugin Directory](https://wordpress.org/plugins/wp-nested-pages).
 
 ## Compatibility
