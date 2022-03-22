@@ -89,6 +89,7 @@ class ListingQuery
 			if ( !$this->settings->menusDisabled() && !$wpml ) $post_type[] = 'np-redirect';
 		} else {
 			$post_type = [$post_type->name];
+			$post_type[] = 'np-redirect';
 		}
 
 		$statuses = ['publish', 'pending', 'draft', 'private', 'future', 'trash'];
